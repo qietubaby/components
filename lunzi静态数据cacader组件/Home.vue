@@ -1,20 +1,13 @@
 <template>
   <div class="home">
-
     <div class="box">
       <p>级联选择组件</p>
-      <!-- <p>{{selected}}</p> -->
+      <p>{{selected}}</p>
       <g-cascader
-       :source.sync="source"
+       :source="source"
        popoverHeight="200px"
        :selected.sync="selected"
       >
-      <!-- 
-        如果数据是动态的需要传这个函数
-        :load-data="loadData" 
-      -->
-      
-
       <!--
       :selected="selected"
        @update:selected="selected = $event"
@@ -122,26 +115,7 @@
 import Father from "@/components/fatherAndSon/father.vue";
 
 // 省市区数据
-import db from './db.json'
-function ajax (parentId = 0) {
-  return new Promise((success) => {
-    setTimeout( () => {
-      let result = db.filter((item) => item.parent_id == parentId)
-
-      /**这部分工作其实是后台做的，用来判断有没有children */
-      result.forEach(node => {
-        if(db.filter(item => item.parent_id === node.id).length > 0) {
-          node.isLeaf = false
-        } else {
-          node.isLeaf = true
-        }
-      })
-     
-      success(result)
-    },500)
-    
-  })
-}
+import db from './db'
 
 export default {
   name: "home",
@@ -151,59 +125,51 @@ export default {
       loading2: true,
       message: "",
       selectedTab: "woman",
-      
-      // cascader组件数据
       selected:[],
-      source: [],
-      
-     
-    };
-
-   
-  },
-  created () {
-
-
-    // 省市区动态数据
-    // ajax(0).then(result => {
-    //   this.source = result
-    // })
-
-
-    // 省市区静态数据
-    this.source = [
+      source: [{
+        name:'浙江',
+        children:[
+          {
+            name: '杭州',
+            children:[
+              {name:'上城'},
+              {name:'下城'},
+              {name:'江干'}
+            ]
+          },
+          {
+            name: '嘉兴',
+            children:[
+              {name:'南湖'},
+              {name:'秀洲'},
+              {name:'嘉善'}
+            ]
+          }
+        ]
+      },
       {
-        name:"河北省",
-        children:[{
-          name:"邯郸",
-          children:[
-            {name:'涉县'},
-            {name:'肥乡'},
-            {name:'磁县'}
-          ]
-        },{
-          name:"石家庄"
-        }]
-      }
-    ]
-
-    
+        name:'河北',
+        children:[
+          {
+            name: '邯郸',
+            children:[
+              {name:'涉县'},
+              {name:'永年'},
+              {name:'新城区'}
+            ]
+          },
+          {
+            name: '石家庄',
+            children:[
+              {name:'长安区'},
+              {name:'开发区'}
+            ]
+          }
+        ]
+      }]
+    };
   },
   methods: {
-    loadData(node, updateSource){
-      let {id } = node
-      ajax(id).then(result => {
-        updateSource(result)
-      })
-    },
-    xxx() {
-      ajax(this.selected[0].id).then(result => {
-        let lastLevelSelectd = this.source.filter(item => item.id === this.selected[0].id)[0]
-        this.$set(lastLevelSelectd,'children',result)
-        console.log(lastLevelSelectd);
-        
-      })
-    },
     inputChange(e) {
       console.log(e.target.value);
     },
@@ -219,9 +185,6 @@ export default {
           }
         }
       });
-    },
-    x(){
-      console.log(this)
     }
   },
   components: {
@@ -258,5 +221,4 @@ export default {
 .g-button-group .g-button {
   margin-right: 0;
 }
-
 </style>
