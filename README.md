@@ -1,4 +1,4 @@
-# lunzi
+# Vue components
 
 ## Project setup
 ```
