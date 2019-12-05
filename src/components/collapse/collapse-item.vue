@@ -1,7 +1,15 @@
 <template>
   <div class="collapseItem">
-    <div class="title" @click="toggle" :data-name="name">{{title}}</div>
-    <div class="content" ref="content" v-if="open">
+    <div
+      class="title"
+      @click="toggle"
+      :data-name="name"
+    >{{title}}</div>
+    <div
+      class="content"
+      ref="content"
+      v-if="open"
+    >
       <slot></slot>
     </div>
   </div>
@@ -18,6 +26,9 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    single: {
+      type: Boolean
     }
   },
   data() {
@@ -29,12 +40,32 @@ export default {
   mounted() {
     this.eventBus &&
       this.eventBus.$on("update:selected", names => {
-        
-        if (names.indexOf(this.name) >= 0) {
-          this.open = true;
+        if (this.single) {
+          
+          if (names.indexOf(this.name) >= 0) {
+            this.open = true
+
+          } else {
+            this.open = false;
+          }
+
         } else {
-          this.open = false;
+
+          console.log(names)
+          if (names.indexOf(this.name) >= 0) {
+            if (this.open) {
+              this.open = false;
+            } else {
+              this.open = true
+            }
+
+          }
+
+
         }
+
+
+
       });
   },
   methods: {

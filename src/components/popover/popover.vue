@@ -94,7 +94,7 @@ export default {
         },
         right: {
           top: top + window.scrollY + (height - height2) / 2,
-          left: left + window.scrollX + width
+          left: left + window.scrollX + width + 10
         }
       }
       contentWrapper.style.left = x[this.position].left + 'px'
@@ -233,11 +233,11 @@ $border-radius: 4px;
     }
     &::before {
       border-right-color: black;
-      left: -21px;
+      left: -11px;
     }
     &::after {
       border-right-color: white;
-      left: -20px;
+      left: -10px;
     }
   }
 }

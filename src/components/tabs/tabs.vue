@@ -7,17 +7,17 @@
 <script>
 import Vue from 'vue'
 export default {
-  name:'GuluTabs',
+  name: 'GuluTabs',
   props: {
     selected: {
       type: String,
       required: true
     },
-    direction:{
+    direction: {
       type: String,
-      default:'horizontal',
+      default: 'horizontal',
       validator(value) {
-        return ['horizontal','vertical'].indexOf(value) >= 0
+        return ['horizontal', 'vertical'].indexOf(value) >= 0
       }
     }
   },
@@ -32,27 +32,24 @@ export default {
     }
   },
   created() {
-    
-   // this.$emit('update:selected','xxx')
+
+    // this.$emit('update:selected','xxx')
   },
   mounted() {
+    // created是父组件先执行  mounted是子组件先执行
+
+    // 只有在mounted里所有子组件才挂载完毕
     // this.eventBus.$emit('update:selected','这是 this eventBus $emit 出来的数据')
-  
     this.$children.forEach((vm) => {
-      if(vm.$options.name === 'GuluTabsHead') {
+      if (vm.$options.name === 'GuluTabsHead') {
         vm.$children.forEach((childvm) => {
-          if(childvm.$options.name === 'GuluTabsItem' && childvm.name === this.selected){
-            this.eventBus.$emit('update:selected',this.selected,childvm)
+          if (childvm.$options.name === 'GuluTabsItem' && childvm.name === this.selected) {
+            this.eventBus.$emit('update:selected', this.selected, childvm)
           }
         })
       }
     })
-   
+
   }
 }
 </script>
-<style lang="scss">
-  .tabs {
-    
-  }
-</style>

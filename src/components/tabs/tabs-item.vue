@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-item" @click="xxx" :class="classes">
+  <div class="tabs-item" @click="onClick" :class="classes">
     <slot></slot>
   </div>
 </template>
@@ -15,13 +15,15 @@ export default {
   computed:{
     classes(){
       return {
-        active: this.active
+        active: this.active,
+        disabled: this.disabled
       }
     }
   },
   created() {
-    //console.log(this.eventBus)
+    // on是监听  emit是触发
     this.eventBus.$on('update:selected',(name) => {
+
       // if(name === this.name) {
       //   console.log(`${this.name}被选中了`)
       //   this.active = true
@@ -31,9 +33,11 @@ export default {
       // }
       // 优化后
       this.active = name === this.name
+
      
     })
   },
+
   props: {
     disabled: {
       type: Boolean,
@@ -45,7 +49,10 @@ export default {
     }
   },
   methods:{
-    xxx() {
+    onClick() {
+      if(this.disabled){
+        return
+      }
       this.eventBus.$emit('update:selected', this.name, this)
     }
   }
@@ -53,6 +60,7 @@ export default {
 </script>
 <style lang="scss">
   $blue:#1890ff;
+  $disabled-text-colr: #dbdbdb;
   .tabs-item {
     flex-shrink: 0;
     padding: 0 1em;
@@ -64,6 +72,9 @@ export default {
     &.active {
       color:$blue;
       font-weight: bold;
+    }
+    &.disabled {
+      color: $disabled-text-colr;
     }
   }
 </style>

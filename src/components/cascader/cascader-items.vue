@@ -1,19 +1,41 @@
 <template>
-  <div class="cascaderItem" :style="{height: height}">
+  <div
+    class="cascaderItem"
+    :style="{height: height}"
+  >
     <div class="left">
       <!-- <div style="color:red;">
        selected: {{selected && selected[level] && selected[level].name}}
        level: {{level}}
       </div> -->
-      <div class="label" @click="onClickLabel(item)" :key="index" v-for="(item,index) in items">
+      <div
+        class="label"
+        @click="onClickLabel(item)"
+        :key="index"
+        v-for="(item,index) in items"
+      >
         <span>{{item.name}}</span>
-        <icon class="icon" v-if="rightArrowVisible(item)" name="right"></icon>
+        <icon
+          class="icon"
+          v-if="rightArrowVisible(item)"
+          name="right"
+        ></icon>
       </div>
-     
+
     </div>
-     <div class="right" v-if="rightItems">
-       <gulu-cascader-items :level="level+1" :selected="selected" :height="height" :items="rightItems" @update:selected="onUpdateSelected"></gulu-cascader-items> 
-      </div>
+    <div
+      class="right"
+      v-if="rightItems"
+    >
+      <gulu-cascader-items
+        :level="level+1"
+        :selected="selected"
+        :height="height"
+        :items="rightItems"
+        @update:selected="onUpdateSelected"
+        :load-data="loadData"
+      ></gulu-cascader-items>
+    </div>
   </div>
 </template>
 <script>
@@ -29,7 +51,7 @@ export default {
     },
     selected: {
       type: Array,
-      default: () => {return []}
+      default: () => { return [] }
     },
     level: {
       type: Number,
@@ -63,32 +85,41 @@ export default {
           return selected[0].children
         } else {
           return null
-        } 
-      }else {
+        }
+      } else {
         return null
       }
-    }
+    },
+
   },
   components: {
     Icon
   },
   methods: {
-    rightArrowVisible(item){
+    rightArrowVisible(item) {
       //用来判断当前数据是否是动态的，从而决定用哪种方法来隐藏右侧的箭头
-      return this.loadData ? !this.item.isLeaf : item.children
+      return this.loadData ? !item.isLeaf : item.children
     },
     onClickLabel(item) {
+
       // this.leftSelected = item
       // this.selected[this.level] = item // Vue这么赋值无效，必须用set
       // this.$set(this.selected,this.level,item)
       let copy = JSON.parse(JSON.stringify(this.selected))
+
+
+
       copy[this.level] = item
-      // console.log(this.level)
+
+
+      // 删除当前level后面的值，以便更新数据。（比如之前选择了河北，现在选择了杭州，就把河北下面的市区域删掉）
       copy.splice(this.level + 1)
-      this.$emit('update:selected',copy)
-      // console.log(copy)
+
+
+      this.$emit('update:selected', copy)
+
     },
-    onUpdateSelected (newSelected) {
+    onUpdateSelected(newSelected) {
       this.$emit('update:selected', newSelected)
     }
   }
@@ -102,7 +133,7 @@ export default {
   justify-content: flex-start;
   .left {
     height: 100%;
-    padding: .3em 0;
+    padding: 0.3em 0;
     overflow: auto;
   }
   .right {
@@ -110,7 +141,7 @@ export default {
     height: 100%;
   }
   .label {
-    padding:0.3em 1em;
+    padding: 0.3em 1em;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -120,13 +151,13 @@ export default {
       background: $gray;
     }
     > .name {
-      margin-right: 1em ;
+      margin-right: 1em;
       user-select: none;
     }
     .icon {
-      margin-left:1rem;
+      margin-left: 1rem;
       color: $border-color-light;
-      transform:scale(0.7);
+      transform: scale(0.7);
     }
   }
 }

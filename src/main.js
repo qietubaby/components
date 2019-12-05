@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/index.js'
 import store from './store'
+import '../src/assets/css/style.scss'
 // 按钮组件
 import Button from '@/components/button/button.vue'
 import Icon from '@/components/icon/icon.vue'
@@ -29,17 +30,17 @@ Vue.component('g-toast',Toast)
 
 
 //tabs 组件
-import Tabs from '@/components/tabs/tabs.vue'
-import TabsHead from '@/components/tabs/tabs-head.vue'
-import TabsItem from '@/components/tabs/tabs-item.vue'
-import TabsBody from '@/components/tabs/tabs-body.vue'
-import TabsPane from '@/components/tabs/tabs-pane.vue'
+// import Tabs from '@/components/tabs/tabs.vue'
+// import TabsHead from '@/components/tabs/tabs-head.vue'
+// import TabsItem from '@/components/tabs/tabs-item.vue'
+// import TabsBody from '@/components/tabs/tabs-body.vue'
+// import TabsPane from '@/components/tabs/tabs-pane.vue'
 
-Vue.component('g-tabs', Tabs)
-Vue.component('g-tabs-head', TabsHead)
-Vue.component('g-tabs-item', TabsItem)
-Vue.component('g-tabs-body', TabsBody)
-Vue.component('g-tabs-pane', TabsPane)
+// Vue.component('g-tabs', Tabs)
+// Vue.component('g-tabs-head', TabsHead)
+// Vue.component('g-tabs-item', TabsItem)
+// Vue.component('g-tabs-body', TabsBody)
+// Vue.component('g-tabs-pane', TabsPane)
 
 
 //popover 组件
@@ -47,9 +48,9 @@ import Popover from '@/components/popover/popover.vue'
 Vue.component('g-popover', Popover)
 
 // Cascader 组件
-import Cascader from '@/components/cascader/cascader.vue'
+// import Cascader from '@/components/cascader/cascader.vue'
 // import CascaderItem from '@/components/cascader/cascader-items.vue'
-Vue.component('g-cascader', Cascader)
+// Vue.component('g-cascader', Cascader)
 // Vue.component('g-cascader-item', CascaderItem)
 Vue.config.productionTip = false
 
