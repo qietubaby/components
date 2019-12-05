@@ -86,7 +86,7 @@
       margin-right: 0;
     }
     > .content {
-      order: 1;
+      order: 0.9;
       
     }
   }
