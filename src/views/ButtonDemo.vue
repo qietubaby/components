@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="demoitem">
-      <g-button>按钮组件</g-button>
+      <g-button>按钮组件333</g-button>
     </div>
 
     <div class="demoitem">
