@@ -5,6 +5,7 @@
     class="gulu-scroll-wrapper"
     @mouseenter="onMouseEnter"
     @mouseleave="onMouseLeave"
+    @wheel="onWheel"
   >
     <div
       ref="child"
@@ -57,21 +58,19 @@ export default {
     document.addEventListener('mouseup', (e) => {
       this.onMouseUpScrollBar(e)
     })
-
-
     let parent = this.$refs.parent
     let child = this.$refs.child
-    let { height: childHeight } = child.getBoundingClientRect()
-    let { height: parentHeight } = parent.getBoundingClientRect()
-    this.parentHeight = parentHeight
-    this.childHeight = childHeight
-    let { borderTopWidth, borderBottomWidth, paddingTop, paddingBottom } = window.getComputedStyle(parent)
-    borderTopWidth = parseInt(borderTopWidth)
-    borderBottomWidth = parseInt(borderBottomWidth)
-    paddingTop = parseInt(paddingTop)
-    paddingBottom = parseInt(paddingBottom)
-    let maxHeight = childHeight - parentHeight + (borderTopWidth + borderBottomWidth + paddingTop + paddingBottom)
-    parent.addEventListener('wheel', (e) => {
+    this.parentHeight = parent.getBoundingClientRect().height
+    this.childHeight = child.getBoundingClientRect().height
+
+    this.updateScrollBar()
+  },
+  methods: {
+    onWheel(e) {
+      //获取 maxHeight，用于限制 contentY
+      let maxHeight = this.calculateContentYMax()
+
+      // 获取contentY初始值
       if (e.deltaY > 20) {
         this.contentY -= 20 * 3
       } else if (e.deltaY < -20) {
@@ -79,6 +78,8 @@ export default {
       } else {
         this.contentY -= e.deltaY * 3
       }
+
+      // 对contentY加限制
       if (this.contentY > 0) {
         this.contentY = 0
       } else if (this.contentY < -maxHeight) {
@@ -88,23 +89,30 @@ export default {
         e.preventDefault()
       }
       // child.style.transform = `translateY(${this.contentY}px)`
-      this.updateScrollBar(parentHeight, childHeight, this.contentY)
-    })
-    this.updateScrollBar(parentHeight, childHeight, this.contentY)
-  },
-  watch: {
-    scrollBarY(newValue) {
-      this.contentY = -(this.childHeight * newValue / this.parentHeight)
-    }
-  },
-  methods: {
-    updateScrollBar(parentHeight, childHeight, translateY) {
-      let barHeight = parentHeight * parentHeight / childHeight
-      this.barHeight = barHeight
+      this.updateScrollBar()
+
+    },
+    calculateContentYMax() {
+      //获取 maxHeight，用于限制 contentY
+      let { borderTopWidth, borderBottomWidth, paddingTop, paddingBottom } = window.getComputedStyle(this.$refs.parent)
+      borderTopWidth = parseInt(borderTopWidth)
+      borderBottomWidth = parseInt(borderBottomWidth)
+      paddingTop = parseInt(paddingTop)
+      paddingBottom = parseInt(paddingBottom)
+      let maxHeight = this.childHeight - this.parentHeight + (borderTopWidth + borderBottomWidth + paddingTop + paddingBottom)
+      return maxHeight
+    },
+    updateScrollBar() {
+      let translateY = this.contentY
+      let parentHeight = this.parentHeight
+      let childHeight = this.childHeight
+
+      this.barHeight = parentHeight * parentHeight / childHeight
       let bar = this.$refs.bar
-      bar.style.height = barHeight + 'px'
+      bar.style.height = this.barHeight + 'px'
       let y = parentHeight * translateY / childHeight
       bar.style.transform = `translateY(${-y}px)`
+      this.scrollBarY = -y
     },
     onMouseEnter() {
       this.scrollBarVisible = true
@@ -130,6 +138,9 @@ export default {
       } else if (this.scrollBarY > maxScrollHeight) {
         this.scrollBarY = maxScrollHeight
       }
+
+      // 滑动滚动条改变内容的translateY
+      this.contentY = -(this.childHeight * this.scrollBarY / this.parentHeight)
 
       this.startPosition = this.endPosition
       this.$refs.bar.style.transform = `translate(0px, ${this.scrollBarY}px)`
