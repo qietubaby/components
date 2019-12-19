@@ -217,10 +217,12 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$slots)
+    // 解决单元格中不可以存在其他标签的bug，比如a标签
+    // console.log(this.$slots.default)
     this.columns = this.$slots.default.map(node => {
       let {text, field, width} = node.componentOptions.propsData
       let render = node.data.scopedSlots && node.data.scopedSlots.default
+      //console.log(render)
       return {text, field, width, render}
     })
 
