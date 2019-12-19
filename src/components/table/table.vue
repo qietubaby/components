@@ -99,8 +99,18 @@
                 <td
                   :key="column.field"
                   :style="{width:column.width+'px'}"
-                >{{item[column.field]}}</td>
+                >
+                  <template v-if="column.render">
+                    <vnodes :vnodes="column.render({value:item[column.field]})"></vnodes>
+                  </template>
+                  <template v-else>
+                    {{item[column.field]}}
+                  </template>
+                </td>
               </template>
+
+              
+              <!--编辑等操作-->
               <td v-if="$scopedSlots.default">
                 <div
                   ref="actions"
@@ -114,6 +124,8 @@
 
               </td>
             </tr>
+
+            <!--点击箭头展开的描述-->
             <tr
               v-if="inExpendedIds(item.id)"
               :key="`${item.id}-expend`"
@@ -138,6 +150,12 @@
 
 <script>
 export default {
+  components: {
+    vnodes: {
+      functional: true,
+      render: (h, ctx) => ctx.props.vnodes
+    }
+  },
   name: 'GuluTable',
   props: {
 
@@ -163,10 +181,10 @@ export default {
       type: Boolean,
       default: false
     },
-    columns: {
-      type: Array,
-      required: true
-    },
+    // columns: {
+    //   type: Array,
+    //   required: true
+    // },
     // id很重要，必须传
     dataSource: {
       type: Array,
@@ -194,10 +212,19 @@ export default {
   },
   data() {
     return {
-      expendedIds: []
+      expendedIds: [],
+      columns: []
     }
   },
   mounted() {
+    console.log(this.$slots)
+    this.columns = this.$slots.default.map(node => {
+      let {text, field, width} = node.componentOptions.propsData
+      let render = node.data.scopedSlots && node.data.scopedSlots.default
+      return {text, field, width, render}
+    })
+
+
     // 判断选中状态
     if (this.selectedItems.length !== this.dataSource.length && this.selectedItems.length !== 0) {
       this.$refs.allChecked.indeterminate = true
@@ -243,7 +270,7 @@ export default {
       let { width } = this.$refs.actions[0].getBoundingClientRect()
       let parent = div.parentNode  //td
       let styles = getComputedStyle(parent)
-      let pddingLeft = styles.getPropertyValue('padding-left')
+      // let pddingLeft = styles.getPropertyValue('padding-left')
       let pddingRight = styles.getPropertyValue('padding-right')
       let borderLeft = styles.getPropertyValue('border-left-width')
       let borderRight = styles.getPropertyValue('border-right-width')

@@ -2,7 +2,6 @@
 <template>
   <g-table
     :data-source="dataSource"
-    :columns="columns"
     :selected-items.sync="selected"
     :bordered="true"
     :order-by.sync="orderBy"
@@ -15,11 +14,20 @@
     <template slot-scope="xxx">
       <button @click="edit(xxx.item)">编辑</button><button @click="view(xxx.item)">查看</button>
     </template>
+
+    <g-table-column text="姓名" field="name" :width="100">
+      <template slot-scope="props">
+        <a href="#">{{props.value}}</a>
+      </template>
+    </g-table-column>
+    <g-table-column text="分数" field="score"></g-table-column>
+
   </g-table>
 </template>
 
 <script>
 import GTable from '@/components/table/table.vue'
+import GTableColumn from '@/components/table/table-column.vue'
 
 export default {
   data() {
@@ -27,10 +35,10 @@ export default {
       selected: [{
         id: 1, name: '方方', score: 100
       }],
-      columns: [
-        { text: '姓名', field: 'name', width: 200 },
-        { text: '分数', field: 'score' }
-      ],
+      // columns: [
+      //   { text: '姓名', field: 'name', width: 200 },
+      //   { text: '分数', field: 'score' }
+      // ],
       orderBy: { // true表示开启排序，但是不确定是asc desc
         name: true,
         score: 'desc'
@@ -90,7 +98,8 @@ export default {
   },
 
   components: {
-    GTable
+    GTable,
+    GTableColumn
   },
   methods: {
     x(key) {
