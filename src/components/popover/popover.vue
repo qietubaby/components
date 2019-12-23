@@ -122,6 +122,7 @@ export default {
     },
     open() {
       this.visible = true;
+      this.$emit('open');
       setTimeout(() => {
         this.positionContent();
         this.listenToDocument();
@@ -129,6 +130,7 @@ export default {
     },
     close() {
       this.visible = false;
+      this.$emit('close')
       document.removeEventListener("click", this.eventHandler);
     },
     onClick(event) {

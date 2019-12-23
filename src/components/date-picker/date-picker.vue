@@ -1,12 +1,19 @@
 <template>
   <div>
-    <g-popover position="bottom">
+    <g-popover
+      position="bottom"
+      ref="popover"
+      @open="onOpen"
+    >
       <g-input
         type="text"
         :value="formattedValue"
       />
       <template slot="content">
-        <div class="gulu-date-picker-pop">
+        <div
+          class="gulu-date-picker-pop"
+          @selectstart.prevent
+        >
           <div class="gulu-date-picker-nav">
             <span
               :class="c('prevYear','navItem')"
@@ -34,45 +41,75 @@
               <g-icon name="youyou" /></span>
           </div>
           <div class="gulu-date-picker-panels">
-            <div
-              v-if="mode==='years'"
-              class="gulu-date-picker-content"
-            >年</div>
-            <div
-              v-else-if="mode==='months'"
-              class="gulu-date-picker-content"
-            >月</div>
-            <div
-              v-else
-              class="gulu-date-picker-content"
-            >
-              <div class="gulu-date-picker-weekdays">
-                <span
-                  class="gulu-date-picker-weekday"
-                  v-for="i in [1,2,3,4,5,6,0]"
+
+            <div class="gulu-date-picker-content">
+
+              <template v-if="mode==='month'">
+                <div :class="c('selectMonth')">
+                  <div :class="c('selects')">
+                    <select
+                      @change="onSelectYear"
+                      :value="display.year"
+                    >
+                      <option
+                        v-for="year in years"
+                        :key="year"
+                        :value="year"
+                      >{{year}}</option>
+                    </select>年
+                    <select
+                      @change="onSelectMonth"
+                      :value="display.month"
+                    >
+                      <option
+                        v-for="month in helper.range(0,12)"
+                        :key="month"
+                        :value="month"
+                      >{{month+1}}</option>
+                    </select>月
+                  </div>
+                  <div :class="c('returnToDayMode')">
+                    <button @click="changeMode">返回</button>
+                  </div>
+                </div>
+              </template>
+
+              <!--展示日期-->
+              <template v-else>
+                <div class="gulu-date-picker-weekdays">
+                  <span
+                    class="gulu-date-picker-weekday"
+                    v-for="i in [1,2,3,4,5,6,0]"
+                    :key="i"
+                  >
+                    {{weekdays[i]}}
+                  </span>
+                </div>
+                <div
+                  class="gulu-date-picker-row"
+                  v-for="i in helper.range(1,7)"
                   :key="i"
                 >
-                  {{weekdays[i]}}
-                </span>
-              </div>
-              <div
-                class="gulu-date-picker-row"
-                v-for="i in helper.range(1,7)"
-                :key="i"
-              >
-                <span
-                  :class="[c('cell'),{currentMonth: isCurrentMonth(getVisibleDay(i,j)),selected: isSelected(getVisibleDay(i,j))}]"
-                  v-for="j in helper.range(1,8)"
-                  :key="j"
-                  @click="onClickCell(getVisibleDay(i,j))"
-                >
-                  {{getVisibleDay(i,j).getDate()}}
-                </span>
-              </div>
+                  <span
+                    :class="[c('cell'),{
+                      currentMonth: isCurrentMonth(getVisibleDay(i,j)),
+                      selected: isSelected(getVisibleDay(i,j)),
+                      today: isToday(getVisibleDay(i, j))
+                    }]"
+                    v-for="j in helper.range(1,8)"
+                    :key="j"
+                    @click="onClickCell(getVisibleDay(i,j))"
+                  >
+                    {{getVisibleDay(i,j).getDate()}}
+                  </span>
+                </div>
+              </template>
+
             </div>
           </div>
           <div class="gulu-date-picker-actions">
-            <g-button>清除</g-button>
+            <g-button @click="onClickToday">今天</g-button>
+            <g-button @click="onClickClear">清除</g-button>
           </div>
         </div>
       </template>
@@ -99,14 +136,17 @@ export default {
       default: 1
     },
     value: {
-      type: Date,
-      default: () => new Date()
+      type: Date
+    },
+    scope: {
+      type: Array,
+      default: () => [new Date(1900, 0, 1), helper.addYear(new Date(), 100)]
     }
   },
   data() {
-    let [year, month] = helper.getYearMonthDate(this.value)
+    let [year, month] = helper.getYearMonthDate(this.value || new Date())
     return {
-      mode: 'days',
+      mode: 'day',
       helper: helper,
       popoverContainer: null,
       weekdays: ['日', '一', '二', '三', '四', '五', '六'],
@@ -114,7 +154,9 @@ export default {
     }
   },
   computed: {
+
     visibleDays() {
+
       let date = new Date(this.display.year, this.display.month, 1)
 
       // 获取到这个月的第一天
@@ -134,6 +176,9 @@ export default {
       // 计算上个月末尾几天的天数
       // 因为 0 表示星期天，所以 0 要单独处理。 如果1号是星期一，那么前面加0天，如果是1号是星期二，前面
       // 加1天，如果是0（星期天），前面就加6天
+
+
+
       let n = first.getDay() === 0 ? 6 : first.getDay() - 1
       let array2 = []
       for (let i = 0; i < n; i++) {
@@ -141,7 +186,7 @@ export default {
       }
 
 
-      // 计算下个月的前几天
+      // 计算下个月的前几天  42是每页展示的日期个数
       let m = 42 - array.length - array2.length;
       let array3 = [];
       for (let i = 1; i <= m; i++) {
@@ -150,11 +195,25 @@ export default {
       return [...array2, ...array, ...array3]
     },
     formattedValue() {
+      if (!this.value) { return '' }
       const [year, month, day] = helper.getYearMonthDate(this.value)
-      return `${year}-${month + 1}-${day}`
+      return `${year}-${helper.pad2(month + 1)}-${helper.pad2(day)}`
+    },
+
+    years() {
+      return helper.range(this.scope[0].getFullYear(), this.scope[1].getFullYear() + 1)
     }
+
   },
   methods: {
+    onOpen(){
+      this.mode = 'day';
+    },
+    changeMode() {
+      setTimeout(()=>{
+        this.mode = 'day'
+      },1)
+    },
     c(...classNames) {
       return classNames.map(className => `gulu-date-picker-${className}`)
     },
@@ -162,12 +221,12 @@ export default {
       this.mode = 'years'
     },
     onClickMonth() {
-      if(this.mode === 'month') {
+      if (this.mode === 'month') {
         this.mode === ''
       } else {
-         this.mode = 'month'
+        this.mode = 'month'
       }
-     
+
     },
     getVisibleDay(row, col) {
       return this.visibleDays[(row - 1) * 7 + col - 1]
@@ -176,6 +235,7 @@ export default {
       // 只能点击当前月份的日期
       if (this.isCurrentMonth(date)) {
         this.$emit('input', date)
+        this.$refs.popover.close()
       }
 
     },
@@ -185,9 +245,10 @@ export default {
       return year1 === this.display.year && month1 === this.display.month;
     },
     isSelected(date) {
-      console.log(date)
-      let [y,m,d] = helper.getYearMonthDate(date);
-      let [y2,m2,d2] = helper.getYearMonthDate(this.value);
+      if (!this.value) { return false }
+      let [y, m, d] = helper.getYearMonthDate(date);
+
+      let [y2, m2, d2] = helper.getYearMonthDate(this.value);
       return y === y2 && m === m2 && d === d2;
     },
     onClickPrevYear() {
@@ -214,6 +275,48 @@ export default {
       const newDate = helper.addMonth(oldDate, -1);
       const [year, month] = helper.getYearMonthDate(newDate);
       this.display = { year, month };
+    },
+    onSelectYear(e) {
+
+      const year = e.target.value - 0;
+
+      const d = new Date(year, this.display.month);
+      if (d >= this.scope[0] && d <= this.scope[1]) {
+        this.display.year = year
+      } else {
+        alert('no');
+        e.target.value = this.display.year;
+      }
+    },
+    onSelectMonth(e) {
+      const month = e.target.value - 0;
+      const d = new Date(this.display.year, month);
+      if (d >= this.scope[0] && d <= this.scope[1]) {
+        this.display.month = month;
+      } else {
+        alert('no')
+        e.target.value = this.display.month;
+      }
+    },
+
+    // 跳转到今天日期
+    onClickToday() {
+      const now = new Date()
+      const [year, month, day] = helper.getYearMonthDate(now)
+      this.display = { year, month }
+      //this.value = new Date(year, month, day)
+      this.$emit('input', new Date(year, month, day))
+    },
+    // 清除日期
+    onClickClear() {
+      this.$emit('input', undefined)
+      this.$refs.popover.close()
+    },
+    // 今天日期状态
+    isToday(date) {
+      let [y, m, d] = helper.getYearMonthDate(date);
+      let [y2, m2, d2] = helper.getYearMonthDate(new Date());
+      return y === y2 && m === m2 && d === d2;
     }
   }
 }
@@ -241,11 +344,14 @@ export default {
     &.currentMonth {
       color: black;
       &:hover {
-      background: $blue;
-      cursor: pointer;
-      border-radius: $border-radius;
-      color: white;
-     }
+        background: $blue;
+        cursor: pointer;
+        border-radius: $border-radius;
+        color: white;
+      }
+    }
+    &.today {
+      background-color: $gray;
     }
     &.selected {
       border: 1px solid $blue;
@@ -260,8 +366,12 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
   }
-  &-actions{
+  &-returnToDayMode {
+    margin-top: 8px;
+  }
+  &-actions {
     padding: 8px;
     text-align: right;
   }

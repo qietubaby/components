@@ -42,6 +42,9 @@
         <li>
           <router-link to="/scroll">Scroll 滚动组件</router-link>
         </li>
+         <li>
+          <router-link to="/datepicker">时间选择器组件</router-link>
+        </li>
       </ul>
       <div class="component-content">
 

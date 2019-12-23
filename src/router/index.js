@@ -25,6 +25,9 @@ import TableDemo from '../views/TableDemo.vue'
 // 滚动组件
 import ScrollDemo from '../views/ScrollDemo.vue'
 
+// 时间选择组件
+import DatePickerDemo from '../views/datePickerDemo.vue'
+
 // import slidedemo from './views/slidedemo.vue'
 // import navdemo from './views/navdemo.vue'
 // import griddemo from './views/griddemo.vue'
@@ -89,6 +92,11 @@ export default new Router({
       path: '/scroll',
       name: 'ScrollDemo',
       component: ScrollDemo
+    },
+    {
+      path: '/datePicker',
+      name: 'DatePickerDemo',
+      component: DatePickerDemo
     }
   ]
 })

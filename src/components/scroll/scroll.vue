@@ -162,7 +162,6 @@ export default {
 .gulu-scroll {
   transition: transform 0.05s ease;
   &-wrapper {
-    border: 1px solid red;
     overflow: hidden;
     position: relative;
   }
