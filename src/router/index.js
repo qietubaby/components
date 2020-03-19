@@ -28,6 +28,16 @@ import ScrollDemo from '../views/ScrollDemo.vue'
 // 时间选择组件
 import DatePickerDemo from '../views/datePickerDemo.vue'
 
+// Toast
+import ToastDemo from '../views/ToastDemo.vue'
+
+// Upload
+import UploadDemo from '../views/uploaderTest.vue'
+
+import StickyDemo from '../views/sticky.vue'
+
+import PagerDemo from '../views/pagerdemo.vue'
+
 // import slidedemo from './views/slidedemo.vue'
 // import navdemo from './views/navdemo.vue'
 // import griddemo from './views/griddemo.vue'
@@ -35,12 +45,13 @@ import DatePickerDemo from '../views/datePickerDemo.vue'
 //  import Sticky from './views/sticky.vue'
 
 
+
 //import dateDemo from './views/datePickerDemo.vue'
 Vue.use(Router)
 
 export default new Router({
   linkExactActiveClass: 'current',
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -97,6 +108,26 @@ export default new Router({
       path: '/datePicker',
       name: 'DatePickerDemo',
       component: DatePickerDemo
+    },
+    {
+      path: '/toast',
+      name: 'ToastDemo',
+      component: ToastDemo
+    },
+    {
+      path: '/upload',
+      name: 'UploadDemo',
+      component: UploadDemo
+    },
+    {
+      path: '/sticky',
+      name: 'StickyDemo',
+      component: StickyDemo
+    },
+    {
+      path: '/pager',
+      name: 'pagerDemo',
+      component: PagerDemo
     }
   ]
 })

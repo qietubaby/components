@@ -1,5 +1,8 @@
 <template>
-  <div class="popover" ref="popover"> 
+  <div
+    class="popover"
+    ref="popover"
+  >
     <!-- @click="onClick"  -->
     <div
       ref="contentWrapper"
@@ -7,9 +10,15 @@
       :class="{[`position-${position}`]:true}"
       v-if="visible"
     >
-      <slot name="content" :close="close"></slot>
+      <slot
+        name="content"
+        :close="close"
+      ></slot>
     </div>
-    <span ref="triggerWrapper" style="display:inline-block;">
+    <span
+      ref="triggerWrapper"
+      style="display:inline-block;"
+    >
       <slot></slot>
     </span>
   </div>
@@ -25,11 +34,11 @@ export default {
         return ["top", "bottom", "left", "right"].indexOf(value) >= 0;
       }
     },
-    trigger:{
-      type:String,
+    trigger: {
+      type: String,
       default: "click",
-      validator(value){
-        return ['click','hover'].indexOf(value) >= 0;
+      validator(value) {
+        return ['click', 'hover'].indexOf(value) >= 0;
       }
     }
   },
@@ -39,44 +48,44 @@ export default {
     }
   },
   mounted() {
-    if(this.trigger === 'click') {
-      this.$refs.popover.addEventListener('click',this.onClick)
+    if (this.trigger === 'click') {
+      this.$refs.popover.addEventListener('click', this.onClick)
     } else {
-      this.$refs.popover.addEventListener('mouseenter',this.open)
-      this.$refs.popover.addEventListener('mouseleave',this.close)
+      this.$refs.popover.addEventListener('mouseenter', this.open)
+      this.$refs.popover.addEventListener('mouseleave', this.close)
     }
   },
   beforeDestroyed() {
-    if(this.trigger === 'click') {
-      this.$refs.popover.removeEventListener('click',this.onClick)
+    if (this.trigger === 'click') {
+      this.$refs.popover.removeEventListener('click', this.onClick)
     } else {
-      this.$refs.popover.removeEventListener('mouseenter',this.open)
-      this.$refs.popover.removeEventListener('mouseleave',this.close)
+      this.$refs.popover.removeEventListener('mouseenter', this.open)
+      this.$refs.popover.removeEventListener('mouseleave', this.close)
     }
   },
-  computed:{
-    openEvent(){
-      if(this.trigger==='click'){
+  computed: {
+    openEvent() {
+      if (this.trigger === 'click') {
         return 'click'
       } else {
         return 'mouseenter'
       }
     },
-    closeEvent (){
-      if(this.trigger === 'click') {
+    closeEvent() {
+      if (this.trigger === 'click') {
         return 'click'
       } else {
         return 'mouseleave'
       }
     }
   },
-  
+
   methods: {
 
     positionContent() {
       const { contentWrapper, triggerWrapper } = this.$refs;
       document.body.appendChild(contentWrapper);
-      
+
       let { height: height2 } = contentWrapper.getBoundingClientRect();
       let { width, height, top, left } = triggerWrapper.getBoundingClientRect();
       let x = {
@@ -101,6 +110,7 @@ export default {
       contentWrapper.style.top = x[this.position].top + 'px'
     },
     eventHandler(e) {
+      // 排除掉按钮本身和弹出框，证明用户点击的是document
       if (
         this.$refs.popover &&
         (this.$refs.popover === e.target ||
@@ -118,6 +128,7 @@ export default {
       this.close();
     },
     listenToDocument() {
+      // 给document添加点击事件
       document.addEventListener("click", this.eventHandler);
     },
     open() {
@@ -179,7 +190,7 @@ $border-radius: 4px;
     &::before,
     &::after {
       left: 10px;
-      border-bottom:none;
+      border-bottom: none;
     }
 
     &::before {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
-import store from './store'
+import store from './store/index.js'
 import '../src/assets/css/style.scss'
 // 按钮组件
 import Button from '@/components/button/button.vue'
@@ -11,21 +11,19 @@ import ButtonGroup from '@/components/button-group/button-group.vue'
 // icon组件
 Vue.component('g-button', Button)
 Vue.component('g-icon', Icon)
-Vue.component('g-button-group',ButtonGroup)
+Vue.component('g-button-group', ButtonGroup)
 
 
 // input 组件
 import Input from '@/components/input/input.vue'
 
-Vue.component('g-input',Input)
+Vue.component('g-input', Input)
 
 
 // toast插件
 import plugin from './plugin';
-import Toast from '@/components/toast/toast.vue'
+Vue.use(plugin)  // use会执行install方法
 
-Vue.use(plugin)
-Vue.component('g-toast',Toast)
 
 
 
@@ -58,8 +56,8 @@ Vue.config.productionTip = false
 //轮播图组件
 import Slides from '@/components/slides/slides.vue'
 import slidesItem from '@/components/slides/slides-item.vue'
-Vue.component('g-slides',Slides)
-Vue.component('g-slides-item',slidesItem)
+Vue.component('g-slides', Slides)
+Vue.component('g-slides-item', slidesItem)
 
 // 自定义指令。指令是专门用来封装dom操作的
 // binding.value 就是绑定的回调函数

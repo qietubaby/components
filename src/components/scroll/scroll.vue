@@ -35,7 +35,7 @@ export default {
   name: 'GuluScroll',
   data() {
     return {
-      scrollBarVisible: false,
+      scrollBarVisible: true,
       isScrolling: false,
       startPosition: undefined,
       endPosition: undefined,

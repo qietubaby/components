@@ -109,7 +109,6 @@
                 </td>
               </template>
 
-              
               <!--编辑等操作-->
               <td v-if="$scopedSlots.default">
                 <div
@@ -220,10 +219,10 @@ export default {
     // 解决单元格中不可以存在其他标签的bug，比如a标签
     // console.log(this.$slots.default)
     this.columns = this.$slots.default.map(node => {
-      let {text, field, width} = node.componentOptions.propsData
+      let { text, field, width } = node.componentOptions.propsData
       let render = node.data.scopedSlots && node.data.scopedSlots.default
       //console.log(render)
-      return {text, field, width, render}
+      return { text, field, width, render }
     })
 
 
@@ -251,9 +250,9 @@ export default {
     table2.classList.add('gulu-table-copy')
 
     // 获取head的高度
+    //let tHead = this.$refs.table.children[0]
     let tHead = this.$refs.table.children[0]
     let { height } = tHead.getBoundingClientRect()
-
     this.$refs.tableWrapper.style.marginTop = height + 'px'
     this.$refs.tableWrapper.style.height = this.height - height + 'px'
     table2.appendChild(tHead)
@@ -276,7 +275,7 @@ export default {
       let pddingRight = styles.getPropertyValue('padding-right')
       let borderLeft = styles.getPropertyValue('border-left-width')
       let borderRight = styles.getPropertyValue('border-right-width')
-      let width2 = width + parseInt(pddingRight) + parseInt(pddingRight) + parseInt(borderLeft) + parseInt(borderRight) +'px'
+      let width2 = width + parseInt(pddingRight) + parseInt(pddingRight) + parseInt(borderLeft) + parseInt(borderRight) + 'px'
       this.$refs.actionsHeader.style.width = width2
       this.$refs.actions.map(div => {
         div.parentNode.style.width = width2

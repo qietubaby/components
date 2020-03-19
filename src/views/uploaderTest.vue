@@ -1,6 +1,16 @@
 <template>
-  <div class="upload-test">
-    <!-- <div>
+  <div class="content">
+    <h2>Upload 上传组件</h2>
+    <h3>多文件上传组件</h3>
+    <div>
+      <p>① Upload组件支持多文件上传</p>
+      <p>② 可以限制上传文件大小、数量以及文件类型</p>
+      <p>③ 可以捕获上传失败得原因</p>
+
+    </div>
+    <div class="upload-test">
+
+      <!-- <div>
       {{ error }}
       <div class="tips">这是单文件上传组件的例子</div>
      
@@ -19,26 +29,25 @@
       </uploader>
     </div> -->
 
+      <div>
+        {{ error }}
 
+        <!-- <uploader></uploader> -->
+        <uploads
+          :size-limit="1024*1024"
+          @error="error=$event"
+          :file-list.sync="fileList"
+          :parseResponse="parseResponse"
+          accept="image/*"
+          method="POST"
+          action="http://127.0.0.1:3000/upload"
+          name="file"
+        >
+          <g-button icon="upload">上传</g-button>
+        </uploads>
+      </div>
 
-    <div style="margin-top:30px;border-top:1px solid red;">
-      {{ error }}
-      <div class="tips">这是多文件上传组件的例子</div>
-      <!-- <uploader></uploader> -->
-      <uploads
-        :size-limit="1024*1024"
-        @error="error=$event"
-        :file-list.sync="fileList"
-        :parseResponse="parseResponse"
-        accept="image/*"
-        method="POST"
-        action="http://127.0.0.1:3000/upload"
-        name="file"
-      >
-        <g-button icon="upload">上传</g-button>
-      </uploads>
     </div>
-
   </div>
 </template>
 <script>
@@ -75,7 +84,7 @@ export default {
 </script>
 <style scoped>
 .upload-test {
-  padding: 30px;
+  padding-top: 30px;
 }
 .tips {
   margin-bottom: 20px;

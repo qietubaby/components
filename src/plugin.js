@@ -5,27 +5,31 @@ import Toast from '@/components/toast/toast.vue'
 export default {
   install(Vue,options){ //options
     Vue.prototype.$toast = function(message,toastOptions){
+      
+      // 下面几句话的作用是把Toast组件应用到js中
       let Constructor = Vue.extend(Toast)
       let toast = new Constructor({
         propsData:toastOptions
       })
       
-     // 默认插槽
+     // 把Toast的插槽内容变成message
       toast.$slots.default = [message]
       toast.$mount()
       document.body.appendChild(toast.$el)
-     
-      //console.log(123)
+
+      
+
     }
   }
 }
 */
 
-// 解决重复出现toast问题
+// 解决重复出现toast问题，这是自己写的Vue插件
 let currentToast;
 export default {
   install(Vue){ //options
     Vue.prototype.$toast = function(message,toastOptions){
+      console.log(message)
       if(currentToast) {
         currentToast.close()
       }

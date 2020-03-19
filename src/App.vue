@@ -14,15 +14,18 @@
       <ul class="side-bar">
 
         <li class="big-title">组件</li>
-
+        <li>
+          <router-link to="/icon">Icon 图标</router-link>
+        </li>
         <li>
           <router-link to="/button">Button 按钮</router-link>
         </li>
         <li>
-          <router-link to="/popover">popover弹窗</router-link>
+          <router-link to="/popover">popover 弹窗</router-link>
         </li>
+
         <li>
-          <router-link to="/icon">Icon 图标</router-link>
+          <router-link to="/toast">Toast 组件</router-link>
         </li>
         <li>
           <router-link to="/tab">Tab 选项卡</router-link>
@@ -42,8 +45,17 @@
         <li>
           <router-link to="/scroll">Scroll 滚动组件</router-link>
         </li>
+        <li>
+          <router-link to="/datepicker">DatePicker 日期选择框</router-link>
+        </li>
+        <li>
+          <router-link to="/sticky">Sticky 固钉组件</router-link>
+        </li>
+        <li>
+          <router-link to="/upload">Upload上传组件</router-link>
+        </li>
          <li>
-          <router-link to="/datepicker">时间选择器组件</router-link>
+          <router-link to="/pager">Pagination 分页</router-link>
         </li>
       </ul>
       <div class="component-content">
@@ -74,11 +86,12 @@
     float: left;
   }
   .component-content {
-    width: 870px;
+    width: 830px;
     float: right;
   }
 }
 .side-bar {
+  margin-right: 40px;
   .big-title {
     font-weight: bold;
   }

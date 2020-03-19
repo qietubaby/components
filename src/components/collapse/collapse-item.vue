@@ -41,7 +41,7 @@ export default {
     this.eventBus &&
       this.eventBus.$on("update:selected", names => {
         if (this.single) {
-          
+
           if (names.indexOf(this.name) >= 0) {
             this.open = true
 
@@ -95,6 +95,7 @@ $border-radius: 4px;
     align-items: center;
     padding: 0 8px;
     background: lighten($grey, 8%);
+    cursor: pointer;
   }
   &:first-child {
     > .title {

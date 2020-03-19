@@ -1,12 +1,16 @@
 <template>
-  <svg class="g-icon" @click="$emit('click',$event)" aria-hidden="true">
+  <svg
+    class="g-icon"
+    @click="$emit('click',$event)"
+    aria-hidden="true"
+  >
     <use :xlink:href="`#i-${name}`"></use>
   </svg>
 </template>
 <script>
-  export default {
-    props: ['name']
-  }
+export default {
+  props: ['name']
+}
 </script>
 <style lang="scss">
 .g-icon {

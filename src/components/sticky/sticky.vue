@@ -24,13 +24,13 @@ export default {
     let { top } = this.top()
 
     window.addEventListener('scroll', () => {
-    
+
 
       if (window.scrollY > top) {
         console.log('滚过了元素顶部')
-        let {height} = this.height()
+        let { height } = this.height()
 
-   
+
         this.$refs.wrapper.style.height = `${height}px`
         this.sticky = true
       } else {
@@ -64,7 +64,7 @@ export default {
 <style scoped lang="scss">
 .gulu-sticky {
   &.sticky {
-    background: red;
+    background: #f0f0f0;
     position: fixed;
     top: 0;
     left: 0;

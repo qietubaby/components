@@ -46,8 +46,8 @@ export default {
     })
     this.eventBus.$on('update:removeSelected', (name) => {
 
-      let selectedCopy = JSON.parse(JSON.stringify(this.selected))
-      let index = selectedCopy.indexOf(name)
+      //let selectedCopy = JSON.parse(JSON.stringify(this.selected))
+      //let index = selectedCopy.indexOf(name)
 
       if (this.single) {
 
