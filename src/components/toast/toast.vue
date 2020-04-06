@@ -98,7 +98,7 @@ export default {
       this.$destroy()
     },
     onClickClose() {
-      console.log(this)
+   
       this.close()
       if (this.closeButton && typeof this.closeButton.callback === 'function') {
         this.closeButton.callback(this) // this === toast实例

@@ -2,17 +2,16 @@
   <div id="app">
     <header class="header">
       <router-link to="/">
-        <img
-          class="logo"
-          src="@/assets/images/logo.png"
-          alt=""
-        >
+        <img class="logo" src="@/assets/images/logo.png" alt="" />
       </router-link>
+      <div class="navs">
+        <router-link to="/">首页</router-link>
+        <a href="https://github.com/qietubaby">Github</a>
+      </div>
     </header>
 
     <div class="container">
       <ul class="side-bar">
-
         <li class="big-title">组件</li>
         <li>
           <router-link to="/icon">Icon 图标</router-link>
@@ -37,7 +36,9 @@
           <router-link to="/cascader">Cascader 级联选择器</router-link>
         </li>
         <li>
-          <router-link to="/ajaxcascader">Cascader Ajax版本级联选择器</router-link>
+          <router-link to="/ajaxcascader"
+            >Cascader Ajax版本级联选择器</router-link
+          >
         </li>
         <li>
           <router-link to="/table">Table 表格组件</router-link>
@@ -54,16 +55,14 @@
         <li>
           <router-link to="/upload">Upload上传组件</router-link>
         </li>
-         <li>
+        <li>
           <router-link to="/pager">Pagination 分页</router-link>
         </li>
       </ul>
       <div class="component-content">
-
         <router-view />
       </div>
     </div>
-
   </div>
 </template>
 
@@ -73,8 +72,18 @@
   margin: 0 auto;
   height: 80px;
   border-bottom: 1px solid #dcdfe6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   .logo {
     margin-top: 19px;
+  }
+  .navs a {
+    color: #1989fa;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    text-decoration: none;
   }
 }
 .container {

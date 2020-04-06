@@ -24,12 +24,11 @@ export default {
 }
 */
 
-// 解决重复出现toast问题，这是自己写的Vue插件
+// 解决重复出现toast问题5001037
 let currentToast;
 export default {
   install(Vue){ //options
     Vue.prototype.$toast = function(message,toastOptions){
-      console.log(message)
       if(currentToast) {
         currentToast.close()
       }
