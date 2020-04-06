@@ -57,7 +57,7 @@ export default new Router({
     {
       path: '/',
       name: 'demo',
-      component: Home
+      component: PopoverDemo
     },
     {
       path: '/button',
