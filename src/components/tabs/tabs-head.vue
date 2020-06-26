@@ -17,7 +17,6 @@ export default {
   name: 'GuluTabsHead',
   inject: ['eventBus'],
   mounted() {
-    // console.log(this.eventBus)
     this.eventBus.$on('update:selected', (item, vm) => {
       let parentLeft = vm.$parent.$el.getBoundingClientRect().left
       let { width, left } = vm.$el.getBoundingClientRect()

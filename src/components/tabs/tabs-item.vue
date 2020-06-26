@@ -23,7 +23,6 @@ export default {
   created() {
     // on是监听  emit是触发
     this.eventBus.$on('update:selected',(name) => {
-
       // if(name === this.name) {
       //   console.log(`${this.name}被选中了`)
       //   this.active = true
@@ -53,6 +52,7 @@ export default {
       if(this.disabled){
         return
       }
+      // 传递childvm的作用在于 在 tabs-head中需要使用childvm的位置
       this.eventBus.$emit('update:selected', this.name, this)
     }
   }
