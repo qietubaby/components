@@ -17,6 +17,9 @@
           <router-link to="/icon">Icon 图标</router-link>
         </li>
         <li>
+          <router-link to="/input">Input 输入框</router-link>
+        </li>
+        <li>
           <router-link to="/button">Button 按钮</router-link>
         </li>
         <li>
@@ -57,6 +60,9 @@
         </li>
         <li>
           <router-link to="/pager">Pagination 分页</router-link>
+        </li>
+        <li>
+          <router-link to="/usercenter">个人中心</router-link>
         </li>
       </ul>
       <div class="component-content">

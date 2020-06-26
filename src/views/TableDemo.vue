@@ -166,7 +166,7 @@ export default {
     GTableColumn,
   },
   methods: {
-    x(key) {
+    x() {
       //  this.loading = true
       this.dataSource = this.dataSource.sort((a, b) => a.score - b.score)
     },

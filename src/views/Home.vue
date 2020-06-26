@@ -5,8 +5,9 @@
         slot="title"
         slot-scope="{changeColor}"
       >
+        
         <h3>这是子组件</h3>
-
+        {{$route.meta.isLogin}}
         <g-button
           class="mt20"
           @click="changeColor"
@@ -29,17 +30,27 @@
         根级别的数据：{{product}}
       </div>
     </div>
+    <g-input @input="getValue" error=""/>
+    <br/>
   </div>
 </template>
 
 <script>
 import Son from '@/components/fatherAndSon/son.vue'
-import { mapGetters, mapState, mapMutations, mapActions } from 'vuex'
+// import HTTP from '@/server'
+import { mapGetters, mapState, mapMutations } from 'vuex'
 export default {
   data() {
     return {
       num: 123
     }
+  },
+  created() {
+    // console.log(this.$route)
+    // HTTP.get('https://www.easy-mock.com/project/5b8cc3645ae7a7318a665203').then((res) => {
+    //   console.log(1222222)
+    //   console.log(this)
+    // })
   },
   components: {
     Son
@@ -58,11 +69,16 @@ export default {
     //this.$store.commit('user/changeName', 'James')
     //},
 
-    ...mapActions('user', ['changeNameAsync'])
+    // ...mapActions('user', ['changeNameAsync'])
 
-    // changeNameAsync() {
-    //   this.$store.dispatch('user/changeNameSync', 'Jane')
-    // }
+    changeNameAsync() {
+      this.$store.dispatch('user/changeNameAsync', 'Jane').then(()=>{
+        console.log(123)
+      })
+    },
+    getValue(e){
+      console.log(e)
+    }
   }
 }
 </script>

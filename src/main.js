@@ -8,6 +8,8 @@ import Button from '@/components/button/button.vue'
 import Icon from '@/components/icon/icon.vue'
 import ButtonGroup from '@/components/button-group/button-group.vue'
 
+
+
 // icon组件
 Vue.component('g-button', Button)
 Vue.component('g-icon', Icon)
@@ -22,9 +24,7 @@ Vue.component('g-input', Input)
 
 // toast插件
 import plugin from './plugin';
-Vue.use(plugin)  // use会执行install方法
-
-
+Vue.use(plugin) // use会执行install方法
 
 
 //tabs 组件
@@ -81,7 +81,7 @@ Vue.directive('click-outside',{
 
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')
