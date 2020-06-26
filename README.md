@@ -14,8 +14,6 @@ npm run build
 ## 文档
 See [Documents](https://qietubaby.github.io/components/#/).
 
-# 各个组件实现原理
-
 ## Tab 组件
 
 该组件共分为5个小组件，分别是tabs\tabs-head\tab-item\tab-body\tab-pane。tabs-head包裹tab-item，tab-body包裹tab-pane。
