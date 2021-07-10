@@ -92,3 +92,14 @@ this.$emit("update:currentPage",n)
 还有一点需要注意的是：关于展示页码的数据需要放在computed里面，根据父组件传过来的值进行对应渲染。
 
 
+
+
+
+## 单元测试
+
+### chai 断言  Should Expect Assert
+
+### BDD  Behavior(行为) Driven（驱动） Development（开发） 
+### TDD（测试驱动开发）Test Driven Dev
+### Assert 断言 我主观认为  console.assert(1===1) console.assert('1').is.a('string')
+

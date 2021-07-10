@@ -173,9 +173,14 @@ export default {
         array.push(new Date(year, month, i))
       }
 
+      // 一个月跨度是6周
+      // 我们通常看到的日历展示是展示上个月的几天、下一月的几天以及当月的所有天数，如果和星期对应起来，应该是42天
       // 计算上个月末尾几天的天数
       // 因为 0 表示星期天，所以 0 要单独处理。 如果1号是星期一，那么前面加0天，如果是1号是星期二，前面
       // 加1天，如果是0（星期天），前面就加6天
+
+      // M:当月的所有日期  X： 31号后面几天  N： 1日是星期几
+      // (N-1) + M + X = 42
 
 
 
@@ -184,6 +189,7 @@ export default {
       for (let i = 0; i < n; i++) {
         array2.push(new Date(year, month, -i))
       }
+
 
 
       // 计算下个月的前几天  42是每页展示的日期个数
@@ -228,6 +234,11 @@ export default {
       }
 
     },
+
+    // 6行7列
+    // 1 1  => 0
+    // 1 2 => 1
+    // 1 3 => 2
     getVisibleDay(row, col) {
       return this.visibleDays[(row - 1) * 7 + col - 1]
     },

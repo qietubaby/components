@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <div>判断是否是微信小程序环境并且跳转回微信小程序</div>
+    <g-button @click="goWx">跳转回微信小程序</g-button>
     <son :num.sync="num">
       <div
         slot="title"
