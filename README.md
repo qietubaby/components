@@ -97,9 +97,28 @@ this.$emit("update:currentPage",n)
 
 ## 单元测试
 
-### chai 断言  Should Expect Assert
+- chai 断言  Should Expect Assert www.chailjs.com
 
-### BDD  Behavior(行为) Driven（驱动） Development（开发） 
-### TDD（测试驱动开发）Test Driven Dev
-### Assert 断言 我主观认为  console.assert(1===1) console.assert('1').is.a('string')
+- BDD  Behavior(行为) Driven（驱动） Development（开发） 
+- TDD（测试驱动开发）Test Driven Dev
+- Assert 断言 我主观认为  console.assert(1===1) console.assert('1').is.a('string')
 
+- npm i -D chai
+- npm i -D chai-spies // 间谍函数
+
+
+- 自动化测试
+- 持续继承
+- 重写所有代码
+- 发布npm包
+- 完善 README
+
+## 使用Karma + Mocha 做单元测试
+- Karma 是一个测试运行器，它可以呼起浏览器，加载测试脚本，然后运行测试用例
+
+- Mocha 是一个单元测试框架/库，它可以用来写测试用例
+- Sinon 是一个spy/stub / mock库，用以辅助测试（使用后才能理解）
+
+- 安装各种工具  npm i -D karma karma-chrome-launcher karma-mocha karma-sinon-chai mocha sinon sinon-chai karma-chai karma-chai-spies
+
+- touch karma.conf.js
